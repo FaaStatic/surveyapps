@@ -16,4 +16,9 @@ abstract class AssessmentsRepository {
 
   Future<Either<ErrorFetch, dynamic>> sendAnswer(
       {required AnswerParam sendingData});
+
+  Future<Either<ErrorFetch, dynamic>> rememberMe(
+      {required String name, required String pass});
+
+  Future<Either<ErrorFetch, bool>> checkRememberMe();
 }

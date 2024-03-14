@@ -31,4 +31,11 @@ class LocalSources implements LocalSourceImpi {
     // TODO: implement insertDetailAssesmentDataDB
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<ErrorFetch, dynamic>> insertRememberData(
+      {required QuestionModel model}) {
+    // TODO: implement insertRememberData
+    throw UnimplementedError();
+  }
 }

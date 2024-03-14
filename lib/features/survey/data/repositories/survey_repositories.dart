@@ -45,4 +45,17 @@ class SurveyRepositories implements AssessmentsRepository {
     // TODO: implement sendAnswer
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<ErrorFetch, dynamic>> rememberMe(
+      {required String name, required String pass}) {
+    // TODO: implement rememberMe
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorFetch, bool>> checkRememberMe() {
+    // TODO: implement checkRememberMe
+    throw UnimplementedError();
+  }
 }

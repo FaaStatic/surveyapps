@@ -10,4 +10,6 @@ abstract class LocalSourceImpi {
       {required List<AssessmentModel> model});
   Future<Either<ErrorFetch, dynamic>> insertDetailAssesmentDataDB(
       {required QuestionModel model});
+  Future<Either<ErrorFetch, dynamic>> insertRememberData(
+      {required QuestionModel model});
 }
