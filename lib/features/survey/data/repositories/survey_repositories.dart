@@ -5,8 +5,8 @@ import 'package:synapsissurvey/core/util/error/error_fetch.dart';
 import 'package:synapsissurvey/features/survey/data/model/assessment_model/assessment_model.dart';
 import 'package:synapsissurvey/features/survey/data/model/question_model/question_model.dart';
 import 'package:synapsissurvey/features/survey/data/model/user_login_model/user_login_model.dart';
-import 'package:synapsissurvey/features/survey/data/sources/local_sources.dart';
-import 'package:synapsissurvey/features/survey/data/sources/remote_sources.dart';
+import 'package:synapsissurvey/features/survey/data/sources/local/local_sources.dart';
+import 'package:synapsissurvey/features/survey/data/sources/remote/remote_sources.dart';
 import 'package:synapsissurvey/features/survey/domain/repositories/assessments_repository.dart';
 
 class SurveyRepositories implements AssessmentsRepository {
@@ -20,8 +20,7 @@ class SurveyRepositories implements AssessmentsRepository {
       required this.info});
 
   @override
-  Future<Either<ErrorFetch, List<AssessmentModel>>> getAllAssessment() {
-    // TODO: implement getAllAssessment
+  Future<Either<ErrorFetch, List<AssessmentModel>>> getAllAssessment() async {
     throw UnimplementedError();
   }
 
