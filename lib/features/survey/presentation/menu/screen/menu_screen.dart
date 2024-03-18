@@ -7,6 +7,8 @@ import 'package:synapsissurvey/core/util/component/error_page.dart';
 import 'package:synapsissurvey/core/util/component/loading_page.dart';
 import 'package:synapsissurvey/features/survey/presentation/menu/component/item_list_survey.dart';
 import 'package:synapsissurvey/features/survey/presentation/menu/controller/menu_contorller.dart';
+import 'package:synapsissurvey/main.dart';
+import 'package:workmanager/workmanager.dart';
 
 class MenuScreen extends ConsumerStatefulWidget {
   const MenuScreen({super.key});
@@ -48,6 +50,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
   }
 
   Future<void> getFirst() async {
+    await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
     setState(() {
       index = 1;
     });
@@ -83,6 +86,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                 final resultFix = data.data;
                 return Expanded(
                     child: RefreshIndicator(
+                        triggerMode: RefreshIndicatorTriggerMode.anywhere,
                         onRefresh: () async {
                           await getFirst();
                         },
@@ -95,7 +99,8 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                                 result: resultFix!.elementAt(index),
                                 callback: () {
                                   context.push("/assesment", extra: {
-                                    "id": resultFix.elementAt(index).id
+                                    "id": resultFix.elementAt(index).id,
+                                    "idx": index
                                   });
                                 },
                                 callbackDownload: () {

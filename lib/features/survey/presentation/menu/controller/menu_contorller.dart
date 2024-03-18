@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:synapsissurvey/core/di/repository_provider.dart';
 import 'package:synapsissurvey/core/util/message/message_util.dart';
-import 'package:synapsissurvey/core/util/state/model/state_result.dart';
+import 'package:synapsissurvey/core/util/model_state/model/state_result.dart';
 import 'package:synapsissurvey/features/survey/data/model/assessment_model/assessment_model.dart';
 import 'package:synapsissurvey/features/survey/domain/usecase/assessment_usecase.dart';
 

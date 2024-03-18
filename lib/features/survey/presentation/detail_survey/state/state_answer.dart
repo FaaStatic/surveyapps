@@ -1,43 +1,62 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:synapsissurvey/core/params/answer_param/answer_param.dart';
-import 'package:synapsissurvey/core/params/item_choose_param/item_choose_param.dart';
+import 'package:synapsissurvey/core/util/model_state/model/temp_answer.dart';
+import 'package:collection/collection.dart';
 
 final providerAnswerState =
-    StateNotifierProvider.autoDispose<StateAnswer, AnswerParam>(
+    StateNotifierProvider<StateAnswer, List<TempAnswer?>>(
         (ref) => StateAnswer());
 
-class StateAnswer extends StateNotifier<AnswerParam?> {
-  StateAnswer() : super(null);
+class StateAnswer extends StateNotifier<List<TempAnswer?>> {
+  StateAnswer() : super([]);
 
-  void changeListSoal(int index, String id, String answer) {
-    var oldJawaban = state?.answers;
-    if (oldJawaban!.isEmpty) {
-      var input = ItemChooseParam(
-        questionId: id,
+  void saveAnswerTemp(int index, String id, String answer) {
+    var oldJawaban = state;
+    oldJawaban[index] = TempAnswer(
+        id: id,
         answer: answer,
-      );
-      oldJawaban.add(input);
-      state = state = state?.copyWith(answers: oldJawaban);
-    } else {
-      var exist =
-          oldJawaban.where((element) => element.questionId == id).toList();
-      if (exist.isEmpty) {
-        oldJawaban.add(ItemChooseParam(
-          questionId: id,
-          answer: answer,
-        ));
+        isAnswer: true,
+        isActive: oldJawaban[index]?.isActive ?? false);
+    state = oldJawaban;
+    print(state);
+  }
 
-        state = state?.copyWith(answers: oldJawaban);
-      } else {
-        var index2 =
-            oldJawaban.indexWhere((element) => element.questionId == id);
-        oldJawaban[index2] = ItemChooseParam(questionId: id, answer: answer);
-        state = state?.copyWith(answers: oldJawaban);
-      }
+  void nextPage(int previous, int index) {
+    var oldJawaban = state;
+    oldJawaban[previous] = TempAnswer(
+        isActive: false,
+        isAnswer: oldJawaban[previous]!.isAnswer,
+        id: oldJawaban[previous]?.id,
+        answer: oldJawaban[previous]?.answer);
+    if (oldJawaban[index] == null) {
+      oldJawaban[index] = const TempAnswer(
+          isActive: true, isAnswer: false, id: null, answer: null);
+      state = oldJawaban;
+    } else {
+      oldJawaban[index] = TempAnswer(
+          isActive: true,
+          isAnswer: oldJawaban[index]?.isAnswer,
+          id: oldJawaban[index]?.id,
+          answer: oldJawaban[index]?.answer);
+      state = oldJawaban;
     }
   }
 
-  void initAnswer(String assesmentId) {
-    state = AnswerParam(assessmentId: assesmentId, answers: []);
+  void initAnswer(int count) {
+    print("banyak list : $count");
+    List<TempAnswer> temp = [];
+    int index = 0;
+    while (index < count) {
+      if (index == 0) {
+        temp.add(const TempAnswer(
+            isActive: true, isAnswer: false, id: null, answer: null));
+      } else {
+        temp.add(const TempAnswer(
+            isActive: false, isAnswer: false, id: null, answer: null));
+      }
+      index++;
+    }
+
+    print("hasil init : $temp");
+    state.addAll(temp);
   }
 }

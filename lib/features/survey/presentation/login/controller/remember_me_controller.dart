@@ -29,6 +29,7 @@ class LoginController extends StateNotifier<bool> {
     var result = await usecase.getUserRememberMe();
     if (result.isRight()) {
       result.fold((l) => {}, (r) {
+        print("contorller get username $r");
         ref.read(providerUsername.notifier).changeUserName(r["user"]);
         ref.read(providerPass.notifier).changePass(r["pass"]);
       });

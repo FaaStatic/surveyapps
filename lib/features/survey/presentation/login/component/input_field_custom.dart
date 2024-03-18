@@ -25,20 +25,14 @@ class InputFieldCustom extends ConsumerStatefulWidget {
 }
 
 class _InputFieldCustomState extends ConsumerState<InputFieldCustom> {
-  final textController = TextEditingController();
   @override
   void initState() {
     print(widget.initial);
-    textController.text = widget.initial;
-    textController.addListener(() {
-      widget.callback(textController.text);
-    });
     super.initState();
   }
 
   @override
   void dispose() {
-    textController.dispose();
     super.dispose();
   }
 
@@ -69,7 +63,10 @@ class _InputFieldCustomState extends ConsumerState<InputFieldCustom> {
                 border: Border.all(color: HexColor("#D6E4EC"), width: 1)),
             child: TextFormField(
               obscureText: widget.valueSecure,
-              controller: textController,
+              initialValue: widget.initial,
+              onChanged: (value) {
+                widget.callback(value);
+              },
               obscuringCharacter: "*",
               style: TextStyle(
                   color: HexColor("#757575"),

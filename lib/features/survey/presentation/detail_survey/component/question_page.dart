@@ -8,8 +8,8 @@ import 'package:synapsissurvey/features/survey/presentation/detail_survey/state/
 
 class QuestionPage extends ConsumerStatefulWidget {
   final ItemQuestionModel data;
-  final int index;
-  const QuestionPage({super.key, required this.data, required this.index});
+  final int indexItem;
+  const QuestionPage({super.key, required this.data, required this.indexItem});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _QuestionPageState();
@@ -18,6 +18,31 @@ class QuestionPage extends ConsumerStatefulWidget {
 class _QuestionPageState extends ConsumerState<QuestionPage> {
   String tempAnswer = "";
   List<String> tempCheckbox = [];
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initAnswerAfter();
+    });
+    super.initState();
+  }
+
+  Future<void> initAnswerAfter() async {
+    var result = ref.read(providerAnswerState);
+    var fixResult = result.elementAt(widget.indexItem);
+    print("test : ${fixResult?.answer}");
+
+    if (widget.data.type == "multiple_choice") {
+      setState(() {
+        tempAnswer = fixResult?.answer ?? "";
+      });
+    } else {
+      setState(() {
+        tempCheckbox =
+            fixResult?.answer != null ? fixResult!.answer!.split(",") : [];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -44,7 +69,7 @@ class _QuestionPageState extends ConsumerState<QuestionPage> {
                 const Gap(16),
                 Flexible(
                     child: Text(
-                  "${(widget.index + 1).toString()}.${widget.data.questionName ?? " "}",
+                  "${(widget.indexItem + 1).toString()}.${widget.data.questionName ?? " "}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       color: HexColor("#787878"),
@@ -80,11 +105,13 @@ class _QuestionPageState extends ConsumerState<QuestionPage> {
           const Gap(16),
           Builder(builder: (context) {
             var listAnswer = widget.data.options;
-            if (widget.data.type == "multiple_choice") {
-              return ListView.builder(
-                  itemCount: listAnswer?.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
+
+            return ListView.builder(
+                itemCount: listAnswer?.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  print("jawaban :  ${listAnswer?.elementAt(index)}");
+                  if (widget.data.type == "multiple_choice") {
                     return RadioListTile<String?>(
                         title: Text(
                           listAnswer?.elementAt(index).optionName ?? "",
@@ -99,17 +126,13 @@ class _QuestionPageState extends ConsumerState<QuestionPage> {
                           setState(() {
                             tempAnswer = value!;
                           });
-                          ref.read(providerAnswerState.notifier).changeListSoal(
-                              index,
+
+                          ref.read(providerAnswerState.notifier).saveAnswerTemp(
+                              widget.indexItem,
                               widget.data.questionId!,
-                              listAnswer!.elementAt(index).optionid!);
+                              value!);
                         });
-                  });
-            } else {
-              return ListView.builder(
-                  itemCount: listAnswer?.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
+                  } else {
                     return CheckboxListTile(
                         title: Text(
                           listAnswer?.elementAt(index).optionName ?? "",
@@ -131,22 +154,23 @@ class _QuestionPageState extends ConsumerState<QuestionPage> {
                             var answerFix = tempCheckbox.join(",");
                             ref
                                 .read(providerAnswerState.notifier)
-                                .changeListSoal(
-                                    index, widget.data.questionId!, answerFix);
+                                .saveAnswerTemp(widget.indexItem,
+                                    widget.data.questionId!, answerFix);
                           } else {
                             setState(() {
                               tempCheckbox
                                   .add(listAnswer.elementAt(index).optionid!);
                             });
                             var answerFix = tempCheckbox.join(",");
+
                             ref
                                 .read(providerAnswerState.notifier)
-                                .changeListSoal(
-                                    index, widget.data.questionId!, answerFix);
+                                .saveAnswerTemp(widget.indexItem,
+                                    widget.data.questionId!, answerFix);
                           }
                         });
-                  });
-            }
+                  }
+                });
           })
         ],
       ),

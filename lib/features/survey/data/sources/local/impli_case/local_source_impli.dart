@@ -4,7 +4,8 @@ import 'package:synapsissurvey/features/survey/data/model/question_model/questio
 
 abstract class LocalSourceImpi {
   Future<List<AssessmentModel>?> getLastData();
-  Future<QuestionModel?> getDetailData({required String id});
+  Future<QuestionModel?> getDetailData(
+      {required String id, required int index});
   Future<void> insertAllAssesmentDataDB({required List<AssessmentModel> model});
   Future<void> insertDetailAssesmentDataDB({required QuestionModel model});
   Future<void> insertSavingAnswer(

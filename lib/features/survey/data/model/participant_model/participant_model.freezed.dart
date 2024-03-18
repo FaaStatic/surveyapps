@@ -27,13 +27,13 @@ mixin _$ParticipantModel {
   String? get departementId => throw _privateConstructorUsedError;
   String? get role => throw _privateConstructorUsedError;
   @JsonKey(name: 'role_id')
-  int? get roleId => throw _privateConstructorUsedError;
+  dynamic get roleId => throw _privateConstructorUsedError;
   @JsonKey(name: 'site_location')
   String? get siteLocation => throw _privateConstructorUsedError;
   @JsonKey(name: 'site_location_id')
   String? get siteLocationId => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_assessment')
-  int? get totalAssessment => throw _privateConstructorUsedError;
+  dynamic get totalAssessment => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_assessment')
   String? get lastAssessment => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_profile')
@@ -59,10 +59,10 @@ abstract class $ParticipantModelCopyWith<$Res> {
       String? departement,
       @JsonKey(name: 'departement_id') String? departementId,
       String? role,
-      @JsonKey(name: 'role_id') int? roleId,
+      @JsonKey(name: 'role_id') dynamic roleId,
       @JsonKey(name: 'site_location') String? siteLocation,
       @JsonKey(name: 'site_location_id') String? siteLocationId,
-      @JsonKey(name: 'total_assessment') int? totalAssessment,
+      @JsonKey(name: 'total_assessment') dynamic totalAssessment,
       @JsonKey(name: 'last_assessment') String? lastAssessment,
       @JsonKey(name: 'image_profile') String? imageProfile,
       @JsonKey(name: 'created_at') String? createdAt});
@@ -118,7 +118,7 @@ class _$ParticipantModelCopyWithImpl<$Res, $Val extends ParticipantModel>
       roleId: freezed == roleId
           ? _value.roleId
           : roleId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       siteLocation: freezed == siteLocation
           ? _value.siteLocation
           : siteLocation // ignore: cast_nullable_to_non_nullable
@@ -130,7 +130,7 @@ class _$ParticipantModelCopyWithImpl<$Res, $Val extends ParticipantModel>
       totalAssessment: freezed == totalAssessment
           ? _value.totalAssessment
           : totalAssessment // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       lastAssessment: freezed == lastAssessment
           ? _value.lastAssessment
           : lastAssessment // ignore: cast_nullable_to_non_nullable
@@ -161,10 +161,10 @@ abstract class _$$ParticipantModelImplCopyWith<$Res>
       String? departement,
       @JsonKey(name: 'departement_id') String? departementId,
       String? role,
-      @JsonKey(name: 'role_id') int? roleId,
+      @JsonKey(name: 'role_id') dynamic roleId,
       @JsonKey(name: 'site_location') String? siteLocation,
       @JsonKey(name: 'site_location_id') String? siteLocationId,
-      @JsonKey(name: 'total_assessment') int? totalAssessment,
+      @JsonKey(name: 'total_assessment') dynamic totalAssessment,
       @JsonKey(name: 'last_assessment') String? lastAssessment,
       @JsonKey(name: 'image_profile') String? imageProfile,
       @JsonKey(name: 'created_at') String? createdAt});
@@ -218,7 +218,7 @@ class __$$ParticipantModelImplCopyWithImpl<$Res>
       roleId: freezed == roleId
           ? _value.roleId
           : roleId // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       siteLocation: freezed == siteLocation
           ? _value.siteLocation
           : siteLocation // ignore: cast_nullable_to_non_nullable
@@ -230,7 +230,7 @@ class __$$ParticipantModelImplCopyWithImpl<$Res>
       totalAssessment: freezed == totalAssessment
           ? _value.totalAssessment
           : totalAssessment // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       lastAssessment: freezed == lastAssessment
           ? _value.lastAssessment
           : lastAssessment // ignore: cast_nullable_to_non_nullable
@@ -280,7 +280,7 @@ class _$ParticipantModelImpl implements _ParticipantModel {
   final String? role;
   @override
   @JsonKey(name: 'role_id')
-  final int? roleId;
+  final dynamic roleId;
   @override
   @JsonKey(name: 'site_location')
   final String? siteLocation;
@@ -289,7 +289,7 @@ class _$ParticipantModelImpl implements _ParticipantModel {
   final String? siteLocationId;
   @override
   @JsonKey(name: 'total_assessment')
-  final int? totalAssessment;
+  final dynamic totalAssessment;
   @override
   @JsonKey(name: 'last_assessment')
   final String? lastAssessment;
@@ -317,13 +317,13 @@ class _$ParticipantModelImpl implements _ParticipantModel {
             (identical(other.departementId, departementId) ||
                 other.departementId == departementId) &&
             (identical(other.role, role) || other.role == role) &&
-            (identical(other.roleId, roleId) || other.roleId == roleId) &&
+            const DeepCollectionEquality().equals(other.roleId, roleId) &&
             (identical(other.siteLocation, siteLocation) ||
                 other.siteLocation == siteLocation) &&
             (identical(other.siteLocationId, siteLocationId) ||
                 other.siteLocationId == siteLocationId) &&
-            (identical(other.totalAssessment, totalAssessment) ||
-                other.totalAssessment == totalAssessment) &&
+            const DeepCollectionEquality()
+                .equals(other.totalAssessment, totalAssessment) &&
             (identical(other.lastAssessment, lastAssessment) ||
                 other.lastAssessment == lastAssessment) &&
             (identical(other.imageProfile, imageProfile) ||
@@ -341,10 +341,10 @@ class _$ParticipantModelImpl implements _ParticipantModel {
       departement,
       departementId,
       role,
-      roleId,
+      const DeepCollectionEquality().hash(roleId),
       siteLocation,
       siteLocationId,
-      totalAssessment,
+      const DeepCollectionEquality().hash(totalAssessment),
       lastAssessment,
       imageProfile,
       createdAt);
@@ -371,10 +371,10 @@ abstract class _ParticipantModel implements ParticipantModel {
           final String? departement,
           @JsonKey(name: 'departement_id') final String? departementId,
           final String? role,
-          @JsonKey(name: 'role_id') final int? roleId,
+          @JsonKey(name: 'role_id') final dynamic roleId,
           @JsonKey(name: 'site_location') final String? siteLocation,
           @JsonKey(name: 'site_location_id') final String? siteLocationId,
-          @JsonKey(name: 'total_assessment') final int? totalAssessment,
+          @JsonKey(name: 'total_assessment') final dynamic totalAssessment,
           @JsonKey(name: 'last_assessment') final String? lastAssessment,
           @JsonKey(name: 'image_profile') final String? imageProfile,
           @JsonKey(name: 'created_at') final String? createdAt}) =
@@ -396,7 +396,7 @@ abstract class _ParticipantModel implements ParticipantModel {
   String? get role;
   @override
   @JsonKey(name: 'role_id')
-  int? get roleId;
+  dynamic get roleId;
   @override
   @JsonKey(name: 'site_location')
   String? get siteLocation;
@@ -405,7 +405,7 @@ abstract class _ParticipantModel implements ParticipantModel {
   String? get siteLocationId;
   @override
   @JsonKey(name: 'total_assessment')
-  int? get totalAssessment;
+  dynamic get totalAssessment;
   @override
   @JsonKey(name: 'last_assessment')
   String? get lastAssessment;

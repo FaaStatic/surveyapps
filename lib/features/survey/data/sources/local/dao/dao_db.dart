@@ -13,7 +13,8 @@ class DaoDB implements LocalSourceImpi {
   DaoDB({required this.database});
 
   @override
-  Future<QuestionModel?> getDetailData({required String id}) async {
+  Future<QuestionModel?> getDetailData(
+      {required String id, required int index}) async {
     try {
       List<ItemQuestionModel> listItem = [];
       List<ItemAnswerModel> listAnswer = [];
@@ -21,14 +22,16 @@ class DaoDB implements LocalSourceImpi {
       var tableQuestionItem = dotenv.get("TABLE_QUESTION_ITEM");
       var tableAnswerItem = dotenv.get("TABLE_ANSWER_ITEM");
       var db = await database.openDb();
-      var question =
-          await db.rawQuery("SELECT * FROM $tableQuestion WHERE 'id'=$id");
-      var questionValue = question.first;
+      var question = await db
+          .rawQuery("SELECT * FROM $tableQuestion WHERE id LIKE '%$id%'");
+      print("datanya dao $question");
       var itemQuestion = await db.rawQuery(
-          "SELECT * FROM $tableQuestionItem WHERE 'id_question'='$id'");
+          "SELECT * FROM $tableQuestionItem WHERE id_question LIKE '%$id%'");
+      print("datanya dao $itemQuestion");
       for (var element in itemQuestion) {
         var item = await db.rawQuery(
-            "SELECT * FROM $tableAnswerItem WHERE ' question_id'='${element["id_question"]}'");
+            "SELECT * FROM $tableAnswerItem WHERE question_id LIKE '%${element["questionid"]}%'");
+        print("datanya dao $item");
         for (var element2 in item) {
           if (element2["site_location_ids"] != null) {
             var stringToList = element2["site_location_ids"] as String;
@@ -53,12 +56,13 @@ class DaoDB implements LocalSourceImpi {
             questionName: element["question_name"] as String,
             scroring: element["scoring"] == 1 ? true : false,
             options: listAnswer);
+
         listItem.add(inputQuestion);
       }
       await db.close();
       return QuestionModel(
-          id: questionValue["id"] as String,
-          name: questionValue["name"] as String,
+          id: question.elementAtOrNull(index)?["id"] as String,
+          name: question.elementAtOrNull(index)?["name"] as String,
           question: listItem);
     } catch (e) {
       print("error dao sources : ${e.toString()}");
@@ -74,8 +78,28 @@ class DaoDB implements LocalSourceImpi {
       var db = await database.openDb();
       var dataAssesment =
           await db.rawQuery("SELECT * FROM $tableName ORDER BY 'id' ASC");
+      print("print data dao getlast : $dataAssesment");
       for (var element in dataAssesment) {
-        var input = AssessmentModel.fromJson(element);
+        var input = AssessmentModel(
+            id: element["id"].toString(),
+            name: element["name"].toString(),
+            assessementDate: element["assessment_date"].toString(),
+            desc: element["description"].toString(),
+            type: element["type"].toString(),
+            roleAssessor: element["role_assessor"].toString(),
+            roleAssessorName: element["role_assessor_name"].toString(),
+            roleParticipant: element["role_participant"],
+            roleParticipantName: element["role_participant_name"].toString(),
+            departementId: element["departement_id"].toString(),
+            departementName: element["departement_name"].toString(),
+            siteLocationId: element["site_location_id"].toString(),
+            siteLocationName: element["site_location_name"].toString(),
+            image: element["image"].toString(),
+            assessors: element["assessors"].toString(),
+            createdAt: element["created_at"].toString(),
+            updatedAt: element["updated_at"].toString(),
+            downloadedAt: element["downloaded_at"] as dynamic,
+            hasResponses: element["has_responses"] == 1 ? true : false);
         temp.add(input);
       }
       await db.close();

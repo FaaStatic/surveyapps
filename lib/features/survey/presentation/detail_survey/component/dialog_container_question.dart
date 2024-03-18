@@ -3,14 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:sizer/sizer.dart';
+import 'package:collection/collection.dart';
 import 'package:synapsissurvey/features/survey/data/model/question_model/question_model.dart';
 import 'package:synapsissurvey/features/survey/presentation/detail_survey/component/container_question.dart';
 
 class DialogContainerQuestion extends ConsumerStatefulWidget {
   final int blokCount;
   final QuestionModel model;
+  final void Function(int index) callback;
+  final void Function(int index) callbackGroup;
   const DialogContainerQuestion(
-      {super.key, this.blokCount = 1, this.model = const QuestionModel()});
+      {super.key,
+      this.blokCount = 1,
+      this.model = const QuestionModel(),
+      required this.callback,
+      required this.callbackGroup});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -20,9 +27,22 @@ class DialogContainerQuestion extends ConsumerStatefulWidget {
 class _DialogContainerQuestionState
     extends ConsumerState<DialogContainerQuestion> {
   PageController _controllerPage = PageController();
+  int labelStart = 0;
+  List<dynamic> listData = [];
+
+  void listInit() {
+    var temp = List.generate(widget.model.question!.length, (index) => index);
+    setState(() {
+      listData = temp.slices(20).toList();
+    });
+    print("datanya : $listData");
+  }
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      listInit();
+    });
     super.initState();
   }
 
@@ -74,13 +94,21 @@ class _DialogContainerQuestionState
                       left: 16, right: 16, bottom: 0, top: 0),
                   child: PageView(
                     controller: _controllerPage,
+                    onPageChanged: (value) {
+                      widget.callbackGroup(value);
+                    },
                     children: [
-                      ...List.generate(
-                          widget.blokCount,
-                          (index) => ContainerQuestion(
-                                countItem: widget.model.question!.length,
-                                callback: () {},
-                              ))
+                      if (listData.isNotEmpty)
+                        ...List.generate(widget.blokCount, (index) {
+                          return ContainerQuestion(
+                            countItem: listData.elementAt(index).length,
+                            indexLabelStart: listData.elementAt(index).first,
+                            callback: (value) {
+                              print("clicked on dialog $value");
+                              widget.callback(value);
+                            },
+                          );
+                        })
                     ],
                   ),
                 )),
@@ -92,15 +120,20 @@ class _DialogContainerQuestionState
                       scrollDirection: Axis.horizontal,
                       children: [
                         ...List.generate(
-                            widget.blokCount,
-                            (index) => Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: BoxDecoration(
-                                      color: HexColor("#D9D9D9"),
-                                      shape: BoxShape.circle),
-                                  margin: const EdgeInsets.all(4),
-                                ))
+                          widget.blokCount,
+                          (index) => Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                                color: _controllerPage.hasClients
+                                    ? _controllerPage.page == index
+                                        ? HexColor("#1FA0C9")
+                                        : HexColor("#D9D9D9")
+                                    : HexColor("#D9D9D9"),
+                                shape: BoxShape.circle),
+                            margin: const EdgeInsets.all(4),
+                          ),
+                        )
                       ],
                     ),
                   ),

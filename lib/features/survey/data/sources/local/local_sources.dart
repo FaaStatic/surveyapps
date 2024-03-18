@@ -9,8 +9,9 @@ class LocalSources implements LocalSourceImpi {
   const LocalSources({required this.dao});
 
   @override
-  Future<QuestionModel?> getDetailData({required String id}) async {
-    return await dao.getDetailData(id: id);
+  Future<QuestionModel?> getDetailData(
+      {required String id, required int index}) async {
+    return await dao.getDetailData(id: id, index: index);
   }
 
   @override

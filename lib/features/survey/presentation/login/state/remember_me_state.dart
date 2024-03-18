@@ -7,7 +7,7 @@ final providerRememberMeState =
 class RememberMeStateProvider extends StateNotifier<bool> {
   RememberMeStateProvider() : super(false);
 
-  void changeRemember() {
-    state = !state;
+  void changeRemember(bool value) {
+    state = value;
   }
 }

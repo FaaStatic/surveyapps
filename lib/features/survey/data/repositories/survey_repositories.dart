@@ -52,7 +52,7 @@ class SurveyRepositories implements AssessmentsRepository {
 
   @override
   Future<Either<ErrorFetch, QuestionModel?>> getDetailQuestion(
-      {required String id}) async {
+      {required String id, required int index}) async {
     var networkInfo = await NetworkInfo().checkConnectivity();
     if (networkInfo) {
       try {
@@ -64,7 +64,7 @@ class SurveyRepositories implements AssessmentsRepository {
       }
     } else {
       try {
-        var data = await localSource.getDetailData(id: id);
+        var data = await localSource.getDetailData(id: id, index: index);
         return Right(data);
       } catch (e) {
         return Left(FetchLocalFail(

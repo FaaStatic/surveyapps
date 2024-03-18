@@ -19,8 +19,8 @@ class AssesmentUsecase implements AssessmentsRepository {
 
   @override
   Future<Either<ErrorFetch, QuestionModel?>> getDetailQuestion(
-      {required String id}) async {
-    return await repository.getDetailQuestion(id: id);
+      {required String id, required int index}) async {
+    return await repository.getDetailQuestion(id: id, index: index);
   }
 
   @override

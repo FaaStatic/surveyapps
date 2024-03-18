@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:synapsissurvey/features/survey/presentation/detail_survey/screen/detail_survey_screen.dart';
 import 'package:synapsissurvey/features/survey/presentation/login/screen/login_screen.dart';
@@ -13,8 +14,9 @@ class RouterManager {
 
   RouterManager._internal();
 
-  GoRouter masterRoute = GoRouter(
-      initialLocation: "/login",
+  GoRouter masterRoute(GlobalKey<NavigatorState> state) => GoRouter(
+      navigatorKey: state,
+      initialLocation: "/",
       routes: [
         GoRoute(
             path: "/",
@@ -35,7 +37,10 @@ class RouterManager {
             path: "/assesment",
             builder: (context, state) {
               final args = state.extra as Map<String, dynamic>;
-              return DetailSurveyScreen(id: args["id"] ?? "");
+              return DetailSurveyScreen(
+                id: args["id"] ?? "",
+                index: args["idx"] ?? 0,
+              );
             }),
       ],
       restorationScopeId: "survey_navigate");

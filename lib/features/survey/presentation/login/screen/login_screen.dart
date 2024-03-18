@@ -15,26 +15,41 @@ import 'package:synapsissurvey/features/survey/presentation/login/state/pass_pro
 import 'package:synapsissurvey/features/survey/presentation/login/state/remember_me_state.dart';
 import 'package:synapsissurvey/features/survey/presentation/login/state/user_name_provider.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
-  Future<void> initDataFirst(WidgetRef ref) async {
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  @override
+  void initState() {
+    initDataFirst();
+    super.initState();
+  }
+
+  Future<void> initDataFirst() async {
     await ref.read(biometricControllerProvider.notifier).biometeriCheck();
-    await ref.read(rememberMeControllerProvider.notifier).rememberUser();
-    var dataRemember = ref.read(rememberMeControllerProvider);
-    if (dataRemember) {
-      await ref.read(rememberMeControllerProvider.notifier).getUserPass(ref);
-    }
+    await ref
+        .read(rememberMeControllerProvider.notifier)
+        .rememberUser()
+        .whenComplete(() {
+      var dataRemember = ref.read(rememberMeControllerProvider);
+      if (dataRemember) {
+        print("Login Screen init $dataRemember");
+        ref.read(rememberMeControllerProvider.notifier).getUserPass(ref);
+        ref.read(providerRememberMeState.notifier).changeRemember(dataRemember);
+      }
+    });
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    initDataFirst(ref);
-    final usernameVal = ref.watch(providerUsername);
-    final passVal = ref.watch(providerPass);
+  Widget build(BuildContext context) {
     final biometric = ref.watch(biometricControllerProvider);
     final loginRef = ref.watch(loginControllerProvider);
-
+    print(ref.watch(providerUsername));
+    print(ref.watch(providerPass));
     return Scaffold(
         body: SafeArea(
       child: loginRef.when(
@@ -63,7 +78,7 @@ class LoginScreen extends ConsumerWidget {
                     const Gap(16),
                     Flexible(
                         child: InputFieldCustom(
-                            initial: usernameVal,
+                            initial: ref.watch(providerUsername),
                             label: "Email",
                             callback: (value) {
                               ref
@@ -73,7 +88,7 @@ class LoginScreen extends ConsumerWidget {
                     const Gap(24),
                     Flexible(
                         child: InputFieldCustom(
-                            initial: passVal,
+                            initial: ref.watch(providerPass),
                             label: "Password",
                             obsecure: true,
                             valueSecure: ref.watch(providerObsecure),
@@ -98,7 +113,7 @@ class LoginScreen extends ConsumerWidget {
                           onChanged: (value) {
                             ref
                                 .read(providerRememberMeState.notifier)
-                                .changeRemember();
+                                .changeRemember(value!);
                           },
                         ),
                       ),
@@ -122,8 +137,8 @@ class LoginScreen extends ConsumerWidget {
                         onPressed: () {
                           ref.read(loginControllerProvider.notifier).loginUser(
                               context: context,
-                              user: usernameVal,
-                              pass: passVal,
+                              user: ref.watch(providerUsername),
+                              pass: ref.watch(providerPass),
                               remember: ref.watch(providerRememberMeState));
                         },
                         child: Text(
@@ -161,8 +176,8 @@ class LoginScreen extends ConsumerWidget {
                                 .read(loginControllerProvider.notifier)
                                 .loginUser(
                                     context: context,
-                                    user: usernameVal,
-                                    pass: passVal,
+                                    user: ref.watch(providerUsername),
+                                    pass: ref.watch(providerPass),
                                     remember:
                                         ref.watch(providerRememberMeState),
                                     usingBiometric: biometric.value!);

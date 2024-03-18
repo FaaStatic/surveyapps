@@ -31,11 +31,11 @@ mixin _$AssessmentModel {
   @JsonKey(name: "type")
   String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: "role_assessor")
-  int? get roleAssessor => throw _privateConstructorUsedError;
+  dynamic get roleAssessor => throw _privateConstructorUsedError;
   @JsonKey(name: "role_assessor_name")
   String? get roleAssessorName => throw _privateConstructorUsedError;
   @JsonKey(name: "role_participant")
-  int? get roleParticipant => throw _privateConstructorUsedError;
+  dynamic get roleParticipant => throw _privateConstructorUsedError;
   @JsonKey(name: "role_participant_name")
   String? get roleParticipantName => throw _privateConstructorUsedError;
   @JsonKey(name: "departement_id")
@@ -80,9 +80,9 @@ abstract class $AssessmentModelCopyWith<$Res> {
       @JsonKey(name: "assessement_date") String? assessementDate,
       @JsonKey(name: "description") String? desc,
       @JsonKey(name: "type") String? type,
-      @JsonKey(name: "role_assessor") int? roleAssessor,
+      @JsonKey(name: "role_assessor") dynamic roleAssessor,
       @JsonKey(name: "role_assessor_name") String? roleAssessorName,
-      @JsonKey(name: "role_participant") int? roleParticipant,
+      @JsonKey(name: "role_participant") dynamic roleParticipant,
       @JsonKey(name: "role_participant_name") String? roleParticipantName,
       @JsonKey(name: "departement_id") String? departementId,
       @JsonKey(name: "departement_name") String? departementName,
@@ -155,7 +155,7 @@ class _$AssessmentModelCopyWithImpl<$Res, $Val extends AssessmentModel>
       roleAssessor: freezed == roleAssessor
           ? _value.roleAssessor
           : roleAssessor // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       roleAssessorName: freezed == roleAssessorName
           ? _value.roleAssessorName
           : roleAssessorName // ignore: cast_nullable_to_non_nullable
@@ -163,7 +163,7 @@ class _$AssessmentModelCopyWithImpl<$Res, $Val extends AssessmentModel>
       roleParticipant: freezed == roleParticipant
           ? _value.roleParticipant
           : roleParticipant // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       roleParticipantName: freezed == roleParticipantName
           ? _value.roleParticipantName
           : roleParticipantName // ignore: cast_nullable_to_non_nullable
@@ -230,9 +230,9 @@ abstract class _$$AssessmentModelImplCopyWith<$Res>
       @JsonKey(name: "assessement_date") String? assessementDate,
       @JsonKey(name: "description") String? desc,
       @JsonKey(name: "type") String? type,
-      @JsonKey(name: "role_assessor") int? roleAssessor,
+      @JsonKey(name: "role_assessor") dynamic roleAssessor,
       @JsonKey(name: "role_assessor_name") String? roleAssessorName,
-      @JsonKey(name: "role_participant") int? roleParticipant,
+      @JsonKey(name: "role_participant") dynamic roleParticipant,
       @JsonKey(name: "role_participant_name") String? roleParticipantName,
       @JsonKey(name: "departement_id") String? departementId,
       @JsonKey(name: "departement_name") String? departementName,
@@ -303,7 +303,7 @@ class __$$AssessmentModelImplCopyWithImpl<$Res>
       roleAssessor: freezed == roleAssessor
           ? _value.roleAssessor
           : roleAssessor // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       roleAssessorName: freezed == roleAssessorName
           ? _value.roleAssessorName
           : roleAssessorName // ignore: cast_nullable_to_non_nullable
@@ -311,7 +311,7 @@ class __$$AssessmentModelImplCopyWithImpl<$Res>
       roleParticipant: freezed == roleParticipant
           ? _value.roleParticipant
           : roleParticipant // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       roleParticipantName: freezed == roleParticipantName
           ? _value.roleParticipantName
           : roleParticipantName // ignore: cast_nullable_to_non_nullable
@@ -410,13 +410,13 @@ class _$AssessmentModelImpl implements _AssessmentModel {
   final String? type;
   @override
   @JsonKey(name: "role_assessor")
-  final int? roleAssessor;
+  final dynamic roleAssessor;
   @override
   @JsonKey(name: "role_assessor_name")
   final String? roleAssessorName;
   @override
   @JsonKey(name: "role_participant")
-  final int? roleParticipant;
+  final dynamic roleParticipant;
   @override
   @JsonKey(name: "role_participant_name")
   final String? roleParticipantName;
@@ -478,12 +478,12 @@ class _$AssessmentModelImpl implements _AssessmentModel {
                 other.assessementDate == assessementDate) &&
             (identical(other.desc, desc) || other.desc == desc) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.roleAssessor, roleAssessor) ||
-                other.roleAssessor == roleAssessor) &&
+            const DeepCollectionEquality()
+                .equals(other.roleAssessor, roleAssessor) &&
             (identical(other.roleAssessorName, roleAssessorName) ||
                 other.roleAssessorName == roleAssessorName) &&
-            (identical(other.roleParticipant, roleParticipant) ||
-                other.roleParticipant == roleParticipant) &&
+            const DeepCollectionEquality()
+                .equals(other.roleParticipant, roleParticipant) &&
             (identical(other.roleParticipantName, roleParticipantName) ||
                 other.roleParticipantName == roleParticipantName) &&
             (identical(other.departementId, departementId) ||
@@ -518,9 +518,9 @@ class _$AssessmentModelImpl implements _AssessmentModel {
         assessementDate,
         desc,
         type,
-        roleAssessor,
+        const DeepCollectionEquality().hash(roleAssessor),
         roleAssessorName,
-        roleParticipant,
+        const DeepCollectionEquality().hash(roleParticipant),
         roleParticipantName,
         departementId,
         departementName,
@@ -557,9 +557,9 @@ abstract class _AssessmentModel implements AssessmentModel {
       @JsonKey(name: "assessement_date") final String? assessementDate,
       @JsonKey(name: "description") final String? desc,
       @JsonKey(name: "type") final String? type,
-      @JsonKey(name: "role_assessor") final int? roleAssessor,
+      @JsonKey(name: "role_assessor") final dynamic roleAssessor,
       @JsonKey(name: "role_assessor_name") final String? roleAssessorName,
-      @JsonKey(name: "role_participant") final int? roleParticipant,
+      @JsonKey(name: "role_participant") final dynamic roleParticipant,
       @JsonKey(name: "role_participant_name") final String? roleParticipantName,
       @JsonKey(name: "departement_id") final String? departementId,
       @JsonKey(name: "departement_name") final String? departementName,
@@ -594,13 +594,13 @@ abstract class _AssessmentModel implements AssessmentModel {
   String? get type;
   @override
   @JsonKey(name: "role_assessor")
-  int? get roleAssessor;
+  dynamic get roleAssessor;
   @override
   @JsonKey(name: "role_assessor_name")
   String? get roleAssessorName;
   @override
   @JsonKey(name: "role_participant")
-  int? get roleParticipant;
+  dynamic get roleParticipant;
   @override
   @JsonKey(name: "role_participant_name")
   String? get roleParticipantName;

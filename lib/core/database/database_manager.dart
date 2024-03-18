@@ -97,8 +97,9 @@ class DatabaseManager {
           FOREIGN KEY (id_assessment) REFERENCES $tableName2(id)
         )""");
     db.execute("""CREATE TABLE $tableName7 (
+          id_save INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,
           id_assessment TEXT NOT NULL,
-          question_id TEXT PRIMARY KEY NOT NULL,
+          question_id TEXT  NOT NULL,
           answer TEXT NULL,
           FOREIGN KEY (id_assessment) REFERENCES $tableName2(id)
           )""");

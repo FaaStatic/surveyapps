@@ -16,7 +16,7 @@ abstract class AssessmentsRepository {
       {String page = "1"});
 
   Future<Either<ErrorFetch, QuestionModel?>> getDetailQuestion(
-      {required String id});
+      {required String id, required int index});
 
   Future<Either<ErrorFetch, dynamic>> sendAnswer(
       {required AnswerParam sendingData});
