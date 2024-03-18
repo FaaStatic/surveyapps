@@ -39,7 +39,7 @@ mixin _$ParticipantModel {
   @JsonKey(name: 'image_profile')
   String? get imageProfile => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
-  DateTime? get createdAt => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -65,7 +65,7 @@ abstract class $ParticipantModelCopyWith<$Res> {
       @JsonKey(name: 'total_assessment') int? totalAssessment,
       @JsonKey(name: 'last_assessment') String? lastAssessment,
       @JsonKey(name: 'image_profile') String? imageProfile,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(name: 'created_at') String? createdAt});
 }
 
 /// @nodoc
@@ -142,7 +142,7 @@ class _$ParticipantModelCopyWithImpl<$Res, $Val extends ParticipantModel>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
     ) as $Val);
   }
 }
@@ -167,7 +167,7 @@ abstract class _$$ParticipantModelImplCopyWith<$Res>
       @JsonKey(name: 'total_assessment') int? totalAssessment,
       @JsonKey(name: 'last_assessment') String? lastAssessment,
       @JsonKey(name: 'image_profile') String? imageProfile,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(name: 'created_at') String? createdAt});
 }
 
 /// @nodoc
@@ -242,7 +242,7 @@ class __$$ParticipantModelImplCopyWithImpl<$Res>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
     ));
   }
 }
@@ -298,7 +298,7 @@ class _$ParticipantModelImpl implements _ParticipantModel {
   final String? imageProfile;
   @override
   @JsonKey(name: 'created_at')
-  final DateTime? createdAt;
+  final String? createdAt;
 
   @override
   String toString() {
@@ -377,7 +377,7 @@ abstract class _ParticipantModel implements ParticipantModel {
           @JsonKey(name: 'total_assessment') final int? totalAssessment,
           @JsonKey(name: 'last_assessment') final String? lastAssessment,
           @JsonKey(name: 'image_profile') final String? imageProfile,
-          @JsonKey(name: 'created_at') final DateTime? createdAt}) =
+          @JsonKey(name: 'created_at') final String? createdAt}) =
       _$ParticipantModelImpl;
 
   factory _ParticipantModel.fromJson(Map<String, dynamic> json) =
@@ -414,7 +414,7 @@ abstract class _ParticipantModel implements ParticipantModel {
   String? get imageProfile;
   @override
   @JsonKey(name: 'created_at')
-  DateTime? get createdAt;
+  String? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$ParticipantModelImplCopyWith<_$ParticipantModelImpl> get copyWith =>

@@ -3,9 +3,9 @@ import 'package:synapsissurvey/features/survey/data/model/assessment_model/asses
 import 'package:synapsissurvey/features/survey/data/model/question_model/question_model.dart';
 
 abstract class RemoteSourceImpli {
-  Future<List<AssessmentModel>?> getDataAssesmentApi();
-  Future<List<AssessmentModel>?> getMoreDataAssesmentApi(
-      {required String page});
+  Future<List<AssessmentModel>?> getDataAssesmentApi(
+      {String page = "1", String search = ""});
+  Future<bool> downloadAssessment();
   Future<QuestionModel?> getDetailAssesmentApi({required String id});
   Future<dynamic> loginAssesmentApi(
       {required String username, required String pass});

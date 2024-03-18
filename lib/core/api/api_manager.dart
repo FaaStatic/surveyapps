@@ -13,6 +13,7 @@ class ApiManager {
 
   Dio apiSetup() {
     String baseUrl = dotenv.get("BASE_URL");
+
     var option = BaseOptions(
       baseUrl: baseUrl,
       responseType: ResponseType.json,

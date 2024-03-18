@@ -28,6 +28,7 @@ class _InputFieldCustomState extends ConsumerState<InputFieldCustom> {
   final textController = TextEditingController();
   @override
   void initState() {
+    print(widget.initial);
     textController.text = widget.initial;
     textController.addListener(() {
       widget.callback(textController.text);

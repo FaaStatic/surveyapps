@@ -75,8 +75,12 @@ class _DialogContainerQuestionState
                   child: PageView(
                     controller: _controllerPage,
                     children: [
-                      ...List.generate(widget.blokCount,
-                          (index) => const ContainerQuestion())
+                      ...List.generate(
+                          widget.blokCount,
+                          (index) => ContainerQuestion(
+                                countItem: widget.model.question!.length,
+                                callback: () {},
+                              ))
                     ],
                   ),
                 )),

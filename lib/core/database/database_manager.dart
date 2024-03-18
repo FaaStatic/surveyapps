@@ -24,11 +24,11 @@ class DatabaseManager {
     var tableName = dotenv.get("TABLE_QUESTION");
     var tableName2 = dotenv.get("TABLE_ASSESSMENT");
     var tableName3 = dotenv.get("TABLE_QUESTION_ITEM");
-    var tableName4 = dotenv.get("TABLE_REMEMBER_ITEM");
     var tableName5 = dotenv.get("TABLE_ANSWER_ITEM");
     var tableName6 = dotenv.get("TABLE_PARTICIPANT");
+    var tableName7 = dotenv.get("TABLE_SAVE_ANSWER");
     var nameDB = dotenv.get("DB_NAME");
-    print(nameDB);
+
     var databasepath = await getDatabasesPath();
     var db = await openDatabase(
       join(databasepath, nameDB),
@@ -63,7 +63,7 @@ class DatabaseManager {
         )""");
     batch.execute("""CREATE TABLE $tableName3 (
           id_question TEXT NOT NULL,
-          questionid TEXT NOT NULL,
+          questionid TEXT PRIMARY KEY NOT NULL,
           section TEXT NULL,
           number TEXT NULL,
           type TEXT NULL,
@@ -71,11 +71,9 @@ class DatabaseManager {
           scoring INTEGER NULL,
           FOREIGN KEY (id_question) REFERENCES $tableName(id)
         )""");
-    batch.execute(
-        "CREATE TABLE $tableName4 (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NULL, pass TEXT  NULL)");
     batch.execute("""CREATE TABLE $tableName5 (
-                      question_id TEXT NOT NULL,
-                      optionid TEXT NOT NULL,
+                      question_id TEXT  NOT NULL,
+                      optionid TEXT PRIMARY KEY NOT NULL,
                       option_name TEXT NULL,
                       points INTEGER NULL,
                       flag INTEGER NULL,
@@ -84,7 +82,7 @@ class DatabaseManager {
                         """);
     batch.execute("""CREATE TABLE $tableName6 (
           id_assessment TEXT NOT NULL,
-          nik TEXT NOT NULL,
+          nik TEXT PRIMARY KEY NOT NULL,
           name TEXT NOT NULL,
           departement TEXT NOT NULL,
           departement_id TEXT NOT NULL,
@@ -98,6 +96,12 @@ class DatabaseManager {
           created_at TEXT NULL,
           FOREIGN KEY (id_assessment) REFERENCES $tableName2(id)
         )""");
+    db.execute("""CREATE TABLE $tableName7 (
+          id_assessment TEXT NOT NULL,
+          question_id TEXT PRIMARY KEY NOT NULL,
+          answer TEXT NULL,
+          FOREIGN KEY (id_assessment) REFERENCES $tableName2(id)
+          )""");
     await batch.commit();
     db.close();
   }

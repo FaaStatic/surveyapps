@@ -17,7 +17,7 @@ class ParticipantModel with _$ParticipantModel {
     @JsonKey(name: 'total_assessment') int? totalAssessment,
     @JsonKey(name: 'last_assessment') String? lastAssessment,
     @JsonKey(name: 'image_profile') String? imageProfile,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'created_at') String? createdAt,
   }) = _ParticipantModel;
 
   factory ParticipantModel.fromJson(Map<String, dynamic> json) =>

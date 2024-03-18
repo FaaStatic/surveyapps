@@ -20,9 +20,7 @@ _$ParticipantModelImpl _$$ParticipantModelImplFromJson(
       totalAssessment: json['total_assessment'] as int?,
       lastAssessment: json['last_assessment'] as String?,
       imageProfile: json['image_profile'] as String?,
-      createdAt: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
+      createdAt: json['created_at'] as String?,
     );
 
 Map<String, dynamic> _$$ParticipantModelImplToJson(
@@ -39,5 +37,5 @@ Map<String, dynamic> _$$ParticipantModelImplToJson(
       'total_assessment': instance.totalAssessment,
       'last_assessment': instance.lastAssessment,
       'image_profile': instance.imageProfile,
-      'created_at': instance.createdAt?.toIso8601String(),
+      'created_at': instance.createdAt,
     };

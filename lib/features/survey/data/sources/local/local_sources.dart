@@ -1,3 +1,4 @@
+import 'package:synapsissurvey/core/params/item_choose_param/item_choose_param.dart';
 import 'package:synapsissurvey/features/survey/data/model/assessment_model/assessment_model.dart';
 import 'package:synapsissurvey/features/survey/data/model/question_model/question_model.dart';
 import 'package:synapsissurvey/features/survey/data/sources/local/dao/dao_db.dart';
@@ -30,8 +31,8 @@ class LocalSources implements LocalSourceImpi {
   }
 
   @override
-  Future<void> insertRememberData(
-      {required String user, required String pass}) async {
-    await dao.insertRememberData(user: user, pass: pass);
+  Future<void> insertSavingAnswer(
+      {required List<ItemChooseParam> input, required String id}) async {
+    await dao.insertSavingAnswer(input: input, id: id);
   }
 }

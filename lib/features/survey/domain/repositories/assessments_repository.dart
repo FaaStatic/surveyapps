@@ -6,19 +6,23 @@ import "package:synapsissurvey/features/survey/data/model/question_model/questio
 import "package:synapsissurvey/features/survey/data/model/user_login_model/user_login_model.dart";
 
 abstract class AssessmentsRepository {
-  Future<Either<ErrorFetch, UserLoginModel>> loginUser(
+  Future<Either<ErrorFetch, UserLoginModel?>> loginUser(
       {required String name, required String pass});
 
-  Future<Either<ErrorFetch, List<AssessmentModel>>> getAllAssessment();
+  Future<Either<ErrorFetch, bool>> downloadData(
+      {required String id, required String name});
 
-  Future<Either<ErrorFetch, QuestionModel>> getDetailQuestion(
+  Future<Either<ErrorFetch, List<AssessmentModel?>>> getAllAssessment(
+      {String page = "1"});
+
+  Future<Either<ErrorFetch, QuestionModel?>> getDetailQuestion(
       {required String id});
 
   Future<Either<ErrorFetch, dynamic>> sendAnswer(
       {required AnswerParam sendingData});
 
-  Future<Either<ErrorFetch, dynamic>> rememberMe(
-      {required String name, required String pass});
-
-  Future<Either<ErrorFetch, bool>> checkRememberMe();
+  Future<Either<ErrorFetch, bool>> changeRememberMe(
+      {bool change = false, String user = "", String pass = ""});
+  Future<Either<ErrorFetch, Map<String, dynamic>>> getUserRememberMe();
+  Future<Either<ErrorFetch, bool>> getRememberMe();
 }

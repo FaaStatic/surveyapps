@@ -11,18 +11,31 @@ class RemoteSources implements RemoteSourceImpli {
   const RemoteSources({required this.api});
 
   @override
-  Future<List<AssessmentModel>?> getDataAssesmentApi() async {
+  Future<List<AssessmentModel>?> getDataAssesmentApi(
+      {String page = "1", String search = ""}) async {
     try {
       var path = dotenv.get("ALL-SURVEY");
-      var result = await api.get("$path/?page=1&limit=10");
-      var responseResult =
-          ApiResult<List<AssessmentModel>>.fromJson(result.data);
-      if (responseResult.status == 200) {
-        return responseResult.data;
+      var basePath = "";
+      if (search.isNotEmpty) {
+        basePath = "$path/?page=$page&limit=10&search=$search";
       } else {
-        return responseResult.data;
+        basePath = "$path/?page=$page&limit=10";
+      }
+      var result = await api.get(basePath);
+      var responseResult = ApiResult<dynamic>.fromJson(result.data);
+      List<AssessmentModel> temp = [];
+
+      if (responseResult.status == 200) {
+        for (var element in responseResult.data!) {
+          var input = AssessmentModel.fromJson(element);
+          temp.add(input);
+        }
+        return temp;
+      } else {
+        return [];
       }
     } on DioException catch (e) {
+      print("error remote sources : ${e.toString()}");
       return [];
     }
   }
@@ -31,68 +44,74 @@ class RemoteSources implements RemoteSourceImpli {
   Future<QuestionModel?> getDetailAssesmentApi({required String id}) async {
     try {
       var path = dotenv.get("DETAIL_SURVEY");
-      var result = await api.get("$path/$id");
-      var responseResult = ApiResult<QuestionModel>.fromJson(result.data);
-      return responseResult.data;
-    } on DioException catch (e) {
-      return null;
-    }
-  }
+      var result = await api.get("$path$id");
+      var responseResult = ApiResult<dynamic>.fromJson(result.data);
+      var resultQuestion = QuestionModel.fromJson(responseResult.data);
 
-  @override
-  Future<List<AssessmentModel>?> getMoreDataAssesmentApi(
-      {required String page}) async {
-    try {
-      var path = dotenv.get("ALL-SURVEY");
-      var result = await api.get("$path/?page=$page&limit=10");
-      var responseResult =
-          ApiResult<List<AssessmentModel>>.fromJson(result.data);
-      if (responseResult.status == 200) {
-        return responseResult.data;
-      } else {
-        return responseResult.data;
-      }
+      return resultQuestion;
     } on DioException catch (e) {
-      return [];
+      print("error remote sources : ${e.toString()}");
+      return null;
     }
   }
 
   @override
   Future loginAssesmentApi(
       {required String username, required String pass}) async {
-    var path = dotenv.get("LOGIN_USER");
-    var body = {"nik": username, "password": pass};
-    var result = await api.post(path, data: body);
-    var responseResult = ApiResult.fromJson(result.data);
-    if (responseResult.status == 200) {
-      return responseResult.data;
-    } else {
-      return responseResult.data;
+    try {
+      var path = dotenv.get("LOGIN_USER");
+      var body = {"nik": username, "password": pass};
+      var result = await api.post(path, data: body);
+      var responseResult = ApiResult.fromJson(result.data);
+      print(responseResult.data);
+      print(responseResult.status);
+      if (responseResult.status == 200) {
+        return responseResult.data;
+      } else {
+        return responseResult.data;
+      }
+    } catch (e) {
+      print("error remote sources : ${e.toString()}");
     }
   }
 
   @override
   Future sendAssesmentApi({required AnswerParam param}) async {
-    var path = dotenv.get("SEND_SURVEY");
-    List<Map<String, dynamic>> temp = [];
+    try {
+      var path = dotenv.get("SEND_SURVEY");
+      List<Map<String, dynamic>> temp = [];
 
-    for (var element in param.answers!) {
-      var data = {
-        "question_id": element.questionId,
-        "answer": element.answer // Type Multiple Choice
+      for (var element in param.answers!) {
+        var data = {
+          "question_id": element.questionId,
+          "answer": element.answer // Type Multiple Choice
+        };
+        temp.add(data);
+      }
+      ;
+      var body = {
+        {"assessment_id": param.assessmentId, "answers": temp}
       };
-      temp.add(data);
+      var result = await api.post(path, data: body);
+      var responseResult = ApiResult.fromJson(result.data);
+      if (responseResult.status == 200) {
+        return responseResult.data;
+      } else {
+        return responseResult.data;
+      }
+    } catch (e) {
+      print("error remote sources : ${e.toString()}");
+      return "";
     }
-    ;
-    var body = {
-      {"assessment_id": param.assessmentId, "answers": temp}
-    };
-    var result = await api.post(path, data: body);
-    var responseResult = ApiResult.fromJson(result.data);
-    if (responseResult.status == 200) {
-      return responseResult.data;
-    } else {
-      return responseResult.data;
+  }
+
+  @override
+  Future<bool> downloadAssessment() async {
+    try {
+      return true;
+    } catch (e) {
+      print("error remote sources : ${e.toString()}");
+      return false;
     }
   }
 }

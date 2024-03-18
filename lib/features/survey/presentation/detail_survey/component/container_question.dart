@@ -4,7 +4,9 @@ import 'package:sizer/sizer.dart';
 
 class ContainerQuestion extends StatelessWidget {
   final int countItem;
-  const ContainerQuestion({super.key, this.countItem = 20});
+  final void Function() callback;
+  const ContainerQuestion(
+      {super.key, this.countItem = 20, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class ContainerQuestion extends StatelessWidget {
       spacing: 10,
       runSpacing: 10,
       children: [
-        ...List.generate(20, (index) {
+        ...List.generate(countItem, (index) {
           return Container(
             width: 65,
             height: 65,
